@@ -1,0 +1,35 @@
+backend/
+├─ src/
+│  ├─ app.module.ts        # главный модуль приложения
+│  ├─ main.ts              # точка входа (запуск сервера)
+│  ├─ prisma/              # Prisma Client и конфиг
+│  │  └─ prisma.service.ts # сервис для доступа к Prisma
+│  ├─ users/
+│  │  ├─ users.module.ts
+│  │  ├─ users.service.ts
+│  │  └─ users.controller.ts
+│  ├─ students/
+│  │  ├─ students.module.ts
+│  │  ├─ students.service.ts
+│  │  └─ students.controller.ts
+│  ├─ teachers/
+│  │  ├─ teachers.module.ts
+│  │  ├─ teachers.service.ts
+│  │  └─ teachers.controller.ts
+│  ├─ applications/
+│  │  ├─ applications.module.ts
+│  │  ├─ applications.service.ts
+│  │  └─ applications.controller.ts
+│  └─ auth/                # авторизация и JWT
+│     ├─ auth.module.ts
+│     ├─ auth.service.ts
+│     └─ auth.controller.ts
+├─ prisma/
+│  ├─ schema.prisma
+│  └─ migrations/
+├─ .env
+├─ prisma.config.ts
+├─ package.json
+├─ tsconfig.json
+├─ yarn.lock
+└─ .gitignore

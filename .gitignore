@@ -1,0 +1,16 @@
+# Node modules
+**/node_modules/
+
+# Env files
+**/.env
+
+# Build outputs
+**/dist/
+**/.next/
+
+# Logs
+*.log
+yarn-error.log
+
+# OS files
+.DS_Store

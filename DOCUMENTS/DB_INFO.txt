@@ -1,0 +1,6 @@
+% docker run --name mentorhub-db \
+  -e POSTGRES_USER=mentor \
+  -e POSTGRES_PASSWORD=secret \
+  -e POSTGRES_DB=mentorhub \
+  -p 5433:5432 \
+  -d postgres

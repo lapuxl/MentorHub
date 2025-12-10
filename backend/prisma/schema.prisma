@@ -1,0 +1,110 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" 
+}
+
+// Пользователи с ролями
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student   Student?
+  teacher   Teacher?
+}
+
+// Студент
+model Student {
+  id           String          @id @default(uuid())
+  user         User            @relation(fields: [userId], references: [id])
+  userId       String          @unique
+  fullName     String
+  institute    String
+  group        String
+  contacts     Json?
+  activities   String?
+
+  supervisorId String?
+  supervisor   Teacher?        @relation("Supervisor", fields: [supervisorId], references: [id])
+
+  topics       StudentTopic[]
+  applications Application[]
+}
+
+// Преподаватель
+model Teacher {
+  id               String           @id @default(uuid())
+  user             User             @relation(fields: [userId], references: [id])
+  userId           String           @unique
+  fullName         String
+  availableSlots   Int
+  contacts         Json?
+  institute        String           // для фильтрации интересов из каталога
+
+  topics           TeacherTopic[]
+  applications     Application[]
+  supervisedStudents Student[]      @relation("Supervisor")
+}
+
+// Заявка студента на научное руководство
+model Application {
+  id        String            @id @default(uuid())
+  student   Student           @relation(fields: [studentId], references: [id])
+  studentId String
+  teacher   Teacher           @relation(fields: [teacherId], references: [id])
+  teacherId String
+  message   String?
+  status    ApplicationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+// Темы, которые предлагает преподаватель
+model TeacherTopic {
+  id        String   @id @default(uuid())
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId String
+
+  title     String
+  desc      String?  // описание темы, опционально
+}
+
+// Каталог заранее заданных интересов для студентов и преподавателей
+model InterestCatalog {
+  id        String   @id @default(uuid())
+  institute String   // для какого института доступен интерес
+  title     String
+}
+
+// Интересы студента (может быть выбрано из каталога или введено самим студентом)
+model StudentTopic {
+  id         String          @id @default(uuid())
+  student    Student         @relation(fields: [studentId], references: [id])
+  studentId  String
+
+  title      String          // заголовок интереса
+  desc       String?         // описание, опционально
+}
+
+// Роли пользователей
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+// Статус заявки
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
