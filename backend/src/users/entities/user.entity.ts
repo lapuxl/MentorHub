@@ -1,6 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { Role } from '@prisma/client';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateUserDto } from "../dto/create-user.dto";
+import { Role } from "@prisma/client";
 
 export class UserEntity {
   id!: string;
@@ -11,7 +11,7 @@ export class UserEntity {
   updatedAt!: Date;
 }
 
-export type UserResponse = Omit<UserEntity, 'password'>;
+export type UserResponse = Omit<UserEntity, "password">;
 
 export interface UsersList {
   users: UserResponse[];
@@ -19,4 +19,3 @@ export interface UsersList {
 }
 
 export class UpdateUser extends PartialType(CreateUserDto) {}
-
